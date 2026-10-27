@@ -10,10 +10,10 @@ from time import perf_counter
 import importlib.metadata
 import numpy as np
 import pandas as pd
-from diffusion import CascadeModel
-from immunization import sample_seeds, static_immunization, dynamic_immunization
-from network import load_dataset, generate_activities
-from ranking import calculate_ar
+from .diffusion import CascadeModel
+from .immunization import sample_seeds, static_immunization, dynamic_immunization
+from .network import load_dataset, generate_activities
+from .ranking import calculate_ar
 
 
 def stream_seed(master, *labels):
@@ -21,7 +21,22 @@ def stream_seed(master, *labels):
     return int.from_bytes(hashlib.sha256(payload).digest()[:8], 'little')
 
 
-def run(config, output):
+def create_run_directory():
+    root = Path('output')
+    root.mkdir(exist_ok=True)
+    number = max((int(path.name) for path in root.iterdir()
+                  if path.name.isdecimal()), default=0) + 1
+    while True:
+        destination = root / str(number)
+        try:
+            destination.mkdir()
+        except FileExistsError:
+            number += 1
+        else:
+            return destination
+
+
+def run(config):
     # Preflight all paths before creating output or running any simulation.
     for key in ('betas', 'budget_fractions', 'alphas'):
         if not config[key] or any(not 0 <= x <= 1 for x in config[key]):
@@ -42,8 +57,8 @@ def run(config, output):
         for key in ('path', 'nodes_path'):
             if spec.get(key) and not Path(spec[key]).is_file():
                 raise FileNotFoundError(spec[key])
-    output = Path(output)
-    output.mkdir(parents=True, exist_ok=False)
+    output = create_run_directory()
+    print(f'Saving results to {output.resolve()}', flush=True)
     metadata = {'config': config, 'python': platform.python_version(),
                 'versions': {p: importlib.metadata.version(p) for p in
                              ('numpy', 'networkx', 'pandas', 'matplotlib')},
@@ -110,13 +125,12 @@ def run(config, output):
                             per_step=config.get('per_step', 1), candidate_policy=config.get('candidate_policy', 'all')))
                         # Checkpoint every completed strategy; interrupted runs retain raw data.
                         pd.DataFrame(rows).to_csv(output / 'raw.csv', index=False)
-    from reporting import report
+    from .reporting import report
     report(output / 'raw.csv', output)
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--config', required=True)
-    parser.add_argument('--output', required=True)
     args = parser.parse_args()
-    run(json.loads(Path(args.config).read_text()), args.output)
+    run(json.loads(Path(args.config).read_text()))

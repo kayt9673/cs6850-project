@@ -1,7 +1,7 @@
 """Greedy marginal CIB and static/dynamic interventions."""
 import numpy as np
-from diffusion import node_key
-from ranking import calculate_ar, calculate_hybrid
+from .diffusion import node_key
+from .ranking import calculate_ar, calculate_hybrid
 
 
 def sample_seeds(model, rng, count=1, distribution='uniform', activities=None):

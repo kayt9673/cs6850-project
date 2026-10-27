@@ -1,0 +1,38 @@
+{
+  "karate": {
+    "source": "https://networkrepository.com/karate.php",
+    "download": "https://nrvis.com/download/data/misc/karate.zip",
+    "nodes": 34,
+    "edges": 78,
+    "archive": "raw\\karate.zip",
+    "sha256": "6d229ec7b3fb938878dc64f7b22d4f77d5faf3fc3d1731cbd70a87f148b9ef34",
+    "transformations": "Undirected simple graph; all nodes/components retained; attributes preserved; edge weights unused by activity-based propagation; no empirical activities supplied."
+  },
+  "dolphins": {
+    "source": "https://networkrepository.com/dolphins.php",
+    "download": "https://nrvis.com/download/data/misc/dolphins.zip",
+    "nodes": 62,
+    "edges": 159,
+    "archive": "raw\\dolphins.zip",
+    "sha256": "9d34947ed4ac929e2f38e542f1a59efd364be2d0b1c624fe2de65826fc7ecdc3",
+    "transformations": "Undirected simple graph; all nodes/components retained; attributes preserved; edge weights unused by activity-based propagation; no empirical activities supplied."
+  },
+  "football": {
+    "source": "https://networks.skewed.de/net/football",
+    "download": "https://networks.skewed.de/net/football/files/football.csv.zip",
+    "nodes": 115,
+    "edges": 613,
+    "archive": "raw\\football.csv.zip",
+    "sha256": "66f554064d6f7c88415ecd0380dbd6460d8c33927475522485cf646abf166903",
+    "transformations": "Undirected simple graph; all nodes/components retained; attributes preserved; edge weights unused by activity-based propagation; no empirical activities supplied."
+  },
+  "netscience": {
+    "source": "https://networks.skewed.de/net/netscience",
+    "download": "https://networks.skewed.de/net/netscience/files/netscience.csv.zip",
+    "nodes": 1589,
+    "edges": 2742,
+    "archive": "raw\\netscience.csv.zip",
+    "sha256": "8115934d8e189b2cd7538a58ec5902b0225bbc81a66bca6bf3116cd989d45854",
+    "transformations": "Undirected simple graph; all nodes/components retained; attributes preserved; edge weights unused by activity-based propagation; no empirical activities supplied."
+  }
+}

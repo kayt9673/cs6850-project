@@ -3,15 +3,15 @@ import unittest
 from pathlib import Path
 import networkx as nx
 import numpy as np
-from diffusion import CascadeModel, InfectionState, simulate_cascade
-from immunization import (estimate_cib, static_immunization, dynamic_immunization,
+from experiment.diffusion import CascadeModel, InfectionState, simulate_cascade
+from experiment.immunization import (estimate_cib, static_immunization, dynamic_immunization,
                           local_benefit, sample_seeds)
-from ranking import calculate_ar, calculate_hybrid, normalize_scores
-from network import load_dataset
-from run_experiments import stream_seed
+from experiment.ranking import calculate_ar, calculate_hybrid, normalize_scores
+from experiment.network import load_dataset
+from experiment.experiments import stream_seed
 from unittest.mock import patch
 import pandas as pd
-from reporting import aggregate, report
+from experiment.reporting import aggregate, report
 
 
 class ImmunizationTests(unittest.TestCase):
@@ -168,13 +168,13 @@ class ImmunizationTests(unittest.TestCase):
         self.assertEqual(len(first[1]), 2)
 
     def test_planning_does_not_receive_evaluation_future(self):
-        import immunization
+        from experiment import immunization
         original = immunization.estimate_cib
         observed = []
         def spy(*args, **kwargs):
             observed.append((args, kwargs))
             return original(*args, **kwargs)
-        with patch('immunization.estimate_cib', side_effect=spy):
+        with patch('experiment.immunization.estimate_cib', side_effect=spy):
             dynamic_immunization(self.model, self.activities, [0], self.live,
                                   1, samples=2)
         self.assertTrue(observed)

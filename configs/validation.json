@@ -1,11 +1,42 @@
 {
-  "datasets": [{"name": "network", "path": "data/edges.csv", "nodes_path": "data/nodes.csv"}],
+  "datasets": [
+    {
+      "name": "karate",
+      "path": "data/karate/edges.csv",
+      "nodes_path": "data/karate/nodes.csv"
+    },
+    {
+      "name": "dolphins",
+      "path": "data/dolphins/edges.csv",
+      "nodes_path": "data/dolphins/nodes.csv"
+    },
+    {
+      "name": "football",
+      "path": "data/football/edges.csv",
+      "nodes_path": "data/football/nodes.csv"
+    },
+    {
+      "name": "netscience",
+      "path": "data/netscience/edges.csv",
+      "nodes_path": "data/netscience/nodes.csv"
+    }
+  ],
   "seed": 42,
-  "activities": ["exponential"],
+  "activities": [
+    "exponential"
+  ],
   "activity_floor": 0.05,
-  "betas": [0.5],
-  "budget_fractions": [0.1],
-  "alphas": [0, 0.5, 1],
+  "betas": [
+    0.5
+  ],
+  "budget_fractions": [
+    0.1
+  ],
+  "alphas": [
+    0,
+    0.5,
+    1
+  ],
   "mc_samples": 10,
   "trials": 3,
   "seed_count": 1,
