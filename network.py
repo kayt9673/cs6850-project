@@ -1,28 +1,6 @@
-"""Generates network structures and assigns node activities using
-exponential, power-law, negative binomial, or mixed distributions. 
-"""
+"""Load network datasets and generate synthetic node activities."""
 import networkx as nx
 import numpy as np
-
-
-def generate_graph(n=100, kind='erdos_renyi', seed=42):
-    if kind == 'erdos_renyi':
-        graph = nx.erdos_renyi_graph(n, 0.06, seed=seed)
-    elif kind == 'barabasi_albert':
-        graph = nx.barabasi_albert_graph(n, 3, seed=seed)
-    elif kind == 'watts_strogatz':
-        graph = nx.connected_watts_strogatz_graph(
-            n, 6, 0.15, tries=100, seed=seed
-        )
-    else:
-        raise ValueError(f'Unknown graph type: {kind}')
-
-    if not nx.is_connected(graph):
-        graph = graph.subgraph(
-            max(nx.connected_components(graph), key=len)
-        ).copy()
-
-    return graph
 
 
 def generate_activities(graph, distribution='mixed', rng=None, floor=0.05):
@@ -33,6 +11,8 @@ def generate_activities(graph, distribution='mixed', rng=None, floor=0.05):
     rng = np.random.default_rng() if rng is None else rng
     nodes = list(graph.nodes())
     n = len(nodes)
+    if not n:
+        return {}
 
     if distribution == 'exponential':
         raw = rng.exponential(scale=1.0, size=n)
@@ -69,3 +49,36 @@ def generate_activities(graph, distribution='mixed', rng=None, floor=0.05):
     scaled = np.maximum(raw / maximum, floor)
 
     return dict(zip(nodes, map(float, scaled)))
+
+
+def load_dataset(spec):
+    """Load string-ID CSV edges/nodes or GraphML, retaining source attributes.
+
+    CSV edges require source,target; optional weight. Nodes CSV requires node
+    and optionally activity; it also records isolates. Directed GraphML requires
+    explicit undirected=true. Source files are never modified.
+    """
+    import csv
+    from pathlib import Path
+    path = Path(spec['path'])
+    if path.suffix.lower() == '.graphml':
+        graph = nx.read_graphml(path)
+    else:
+        graph = nx.Graph()
+        with path.open(newline='', encoding='utf-8-sig') as stream:
+            for row in csv.DictReader(stream):
+                attrs = {k: v for k, v in row.items() if k not in ('source', 'target')}
+                graph.add_edge(row['source'], row['target'], **attrs)
+    if graph.is_directed() and not spec.get('undirected', False):
+        raise ValueError('Directed input requires explicit undirected=true')
+    # The propagation model uses topology, not input weights. The source is intact.
+    graph = nx.Graph(graph)
+    graph.remove_edges_from(nx.selfloop_edges(graph))
+    if spec.get('nodes_path'):
+        with open(spec['nodes_path'], newline='', encoding='utf-8-sig') as stream:
+            for row in csv.DictReader(stream):
+                graph.add_node(row['node'], **{k: v for k, v in row.items()
+                                              if k != 'node' and v != ''})
+    if not graph:
+        raise ValueError('Empty dataset')
+    return graph

@@ -1,0 +1,16 @@
+{
+  "datasets": [{"name": "network", "path": "data/edges.csv", "nodes_path": "data/nodes.csv"}],
+  "seed": 42,
+  "activities": ["exponential"],
+  "activity_floor": 0.05,
+  "betas": [0.5],
+  "budget_fractions": [0.1],
+  "alphas": [0, 0.5, 1],
+  "mc_samples": 10,
+  "trials": 3,
+  "seed_count": 1,
+  "seed_distribution": "uniform",
+  "centrality": "degree",
+  "per_step": 1,
+  "candidate_policy": "all"
+}
