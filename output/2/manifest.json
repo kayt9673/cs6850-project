@@ -1,0 +1,89 @@
+{
+  "config": {
+    "datasets": [
+      {
+        "name": "karate",
+        "path": "data/karate/edges.csv",
+        "nodes_path": "data/karate/nodes.csv"
+      },
+      {
+        "name": "dolphins",
+        "path": "data/dolphins/edges.csv",
+        "nodes_path": "data/dolphins/nodes.csv"
+      },
+      {
+        "name": "football",
+        "path": "data/football/edges.csv",
+        "nodes_path": "data/football/nodes.csv"
+      },
+      {
+        "name": "netscience",
+        "path": "data/netscience/edges.csv",
+        "nodes_path": "data/netscience/nodes.csv"
+      }
+    ],
+    "seed": 43,
+    "activities": [
+      "exponential",
+      "power_law",
+      "negative_binomial"
+    ],
+    "activity_floor": 0.15,
+    "betas": [
+      0.5,
+      0.7,
+      1.0
+    ],
+    "budget_fractions": [
+      0.05,
+      0.1,
+      0.2,
+      0.3
+    ],
+    "alphas": [
+      0,
+      0.25,
+      0.5,
+      0.75,
+      1
+    ],
+    "mc_samples": 300,
+    "trials": 100,
+    "static_plans": 5,
+    "mig_threshold": 0.0,
+    "checkpoint_rows": 100,
+    "plot_mode": "selected",
+    "seed_count": 1,
+    "seed_distribution": "uniform",
+    "centrality": "degree",
+    "per_step": 1,
+    "candidate_policy": "all"
+  },
+  "python": "3.11.15",
+  "versions": {
+    "numpy": "2.4.4",
+    "networkx": "3.6.1",
+    "pandas": "3.0.2",
+    "matplotlib": "3.10.8"
+  },
+  "inputs": {
+    "data/karate/edges.csv": "e185e9bb38dba35931342af0a29c13d17a6967465d31b595f1dcebd2717db76f",
+    "data/karate/nodes.csv": "d0b3dd53d691cc14673f3aaeb8d4bf13b60a22ff7537bb96d9649a0a6b5b223d",
+    "data/dolphins/edges.csv": "d531e521c5c0e2d6c06082ecadaea0274ab0a78e907ceb3e85b3b18a56939a4d",
+    "data/dolphins/nodes.csv": "d7e14ce580e31d5d9426bc5362a37b43149fa12357e343917efe99d9bbfb5afc",
+    "data/football/edges.csv": "be3fe7475c447941ad6444a74ff80b03dfef463bc16d08221c3d0465be5c790c",
+    "data/football/nodes.csv": "79bf6210d50e44f215cedd0756d062f749a4d7993d5a9e22c924905b1918fcf2",
+    "data/netscience/edges.csv": "5a5df92e4e8be79f171e66c18b534c51843250f91ac58746dff6b05905fc337d",
+    "data/netscience/nodes.csv": "1fbcda8c7a3d02d86085637ed57b970c43fcdc64bf81cf6937066ae9d8ca54c4"
+  },
+  "code": {
+    "__init__.py": "93b291971fd8bc3455dd0ae8fdff26075f047323f1aeb697c5db13d9c653ae06",
+    "diffusion.py": "14c2e75d8b5033d6d4de48ad9c8bdd045830d3a773b6a221ac3e3bcb7a81f16f",
+    "experiments.py": "771db2ebaa776b3f5cbaefa630f079adf626466a44f5fa5871be51b65d685bcd",
+    "immunization.py": "92a5d3cf000055f8ffda1fa6e1f3e659ebbf097c99722b5c2e0e46a00511b418",
+    "network.py": "d9fbabedd95de65a5fb62bc4d94fc1214bbb4af0d0485a7319759fb4d31a7173",
+    "prepare_datasets.py": "ecb2e3117763a99d6568c2c4fcdeba8e44a6760bd9fa37b354f5da8b2d827884",
+    "ranking.py": "d1b7fcec4c6c4d4403096945847780b10a1176ce55dc796f717e9314575cb2c3",
+    "reporting.py": "5be128967f2108941ff76e64801952f15f8caa5af2c8f1c680105b3ee9d94763"
+  }
+}
