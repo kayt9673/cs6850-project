@@ -1,14 +1,16 @@
 import tempfile
+import io
 import unittest
+from contextlib import redirect_stdout
 from pathlib import Path
 import networkx as nx
 import numpy as np
 from experiment.diffusion import CascadeModel, InfectionState, simulate_cascade
 from experiment.immunization import (estimate_cib, static_immunization, dynamic_immunization,
-                          local_benefit, sample_seeds)
+                          modified_immunization_gain, sample_seeds)
 from experiment.ranking import calculate_ar, calculate_hybrid, normalize_scores
 from experiment.network import load_dataset
-from experiment.experiments import stream_seed
+from experiment.experiments import stream_seed, run
 from unittest.mock import patch
 import pandas as pd
 from experiment.reporting import aggregate, report
@@ -64,7 +66,7 @@ class ImmunizationTests(unittest.TestCase):
     def test_budget_and_order(self):
         protected = static_immunization(self.model, self.activities, 2, samples=4)
         self.assertEqual(len(protected), 2)
-        for strategy in ('ar', 'local', 'hybrid'):
+        for strategy in ('ar', 'mig', 'hybrid'):
             state, protected = dynamic_immunization(self.model, self.activities, [0], self.live,
                                                     2, strategy=strategy, samples=4, policy='frontier')
             self.assertLessEqual(len(protected), 2)
@@ -138,9 +140,31 @@ class ImmunizationTests(unittest.TestCase):
                                                 strategy=strategy, alpha=alpha)
             self.assertEqual(protected, {1})
 
-    def test_local_immediate_only(self):
-        scores = local_benefit(self.model, [1, 2], self.model.initial([0]))
+    def test_mig_measures_neighbor_risk_reduction(self):
+        # Node 1 can be infected by 0 and then infect 2; node 2 has no
+        # current exposure, so its downstream benefit is zero.
+        scores = modified_immunization_gain(self.model, [1, 2], self.model.initial([0]))
         self.assertEqual(scores, {1: 1, 2: 0})
+        state, protected = dynamic_immunization(self.model, self.activities,
+            [0], self.live, 1, strategy='mig', mig_threshold=0)
+        self.assertEqual(protected, {1})
+        self.assertEqual(state.infected, {0})
+        state, protected = dynamic_immunization(self.model, self.activities,
+            [0], self.live, 1, strategy='mig', mig_threshold=1)
+        self.assertEqual(protected, set())
+        self.assertEqual(state.infected, set(self.graph))
+        # A second route to neighbor 2 reduces the gain from blocking 1.
+        triangle = nx.Graph([(0, 1), (0, 2), (1, 2)])
+        model = CascadeModel(triangle, dict.fromkeys(triangle, 1.), .5)
+        score = modified_immunization_gain(model, [1], model.initial([0]))
+        self.assertAlmostEqual(score[1], .125)
+
+    def test_cib_skips_nodes_outside_baseline_without_changing_score(self):
+        # Candidate 3 is never reached by this one-edge live scenario.
+        with patch.object(self.model, 'scenario', return_value={(0, 1)}):
+            with patch('experiment.immunization.sample_seeds', return_value={0}):
+                scores = estimate_cib(self.model, [1, 2, 3], samples=3)
+        self.assertEqual(scores, {1: 1, 2: 0, 3: 0})
 
     def test_validation_and_seed_streams(self):
         with self.assertRaises(ValueError):
@@ -198,6 +222,137 @@ class ImmunizationTests(unittest.TestCase):
             report(path, tmp)
             self.assertTrue((Path(tmp) / 'aggregated.csv').exists())
             self.assertEqual(len(list(Path(tmp).glob('*.png'))), 5)
+
+    def test_selected_plots_keep_all_aggregated_scenarios(self):
+        row = dict(network='fixture', budget_fraction=.1, budget=1,
+                   mode='static', strategy='hybrid', alpha=.5,
+                   centrality='degree', mc_samples=2, seed_count=1,
+                   seed_distribution='uniform', per_step=1,
+                   candidate_policy='all', immunized=1, utilization=1.,
+                   runtime_seconds=.01)
+        raw = pd.DataFrame([dict(row, activity=activity, beta=beta,
+                                 infection_fraction=.25)
+                            for activity in ('exponential', 'power_law')
+                            for beta in (.3, .5)])
+        with tempfile.TemporaryDirectory() as tmp:
+            raw_path = Path(tmp) / 'raw.csv'
+            raw.to_csv(raw_path, index=False)
+            all_dir, selected_dir = Path(tmp) / 'all', Path(tmp) / 'selected'
+            report(raw_path, all_dir)
+            report(raw_path, selected_dir, plot_mode='selected')
+            self.assertLess(len(list(selected_dir.glob('*.png'))),
+                            len(list(all_dir.glob('*.png'))))
+            self.assertEqual(len(pd.read_csv(all_dir / 'aggregated.csv')),
+                             len(pd.read_csv(selected_dir / 'aggregated.csv')))
+
+    def test_five_static_plans_are_reused_and_reported_as_five_plans(self):
+        root = Path(__file__).resolve().parents[1]
+        config = dict(datasets=[dict(name='karate',
+            path=str(root / 'data/karate/edges.csv'),
+            nodes_path=str(root / 'data/karate/nodes.csv'))],
+            seed=42, activities=['exponential'], betas=[.5],
+            budget_fractions=[.05], alphas=[0], mc_samples=2,
+            trials=10, static_plans=5, checkpoint_rows=7)
+        import os
+        from experiment import experiments
+        original = experiments.static_immunization
+        with tempfile.TemporaryDirectory() as tmp:
+            previous = Path.cwd()
+            try:
+                os.chdir(tmp)
+                output_text = io.StringIO()
+                with redirect_stdout(output_text):
+                    with patch('experiment.experiments.static_immunization', wraps=original) as planner:
+                        with patch('experiment.reporting.report'):
+                            run(config)
+                self.assertIn('Progress: 0.00%', output_text.getvalue())
+                self.assertIn('Progress: 100.00% (60/60 evaluations)', output_text.getvalue())
+                self.assertIn('Run complete.', output_text.getvalue())
+                # Three static methods, each planned five times.
+                self.assertEqual(planner.call_count, 15)
+                raw = pd.read_csv(Path('output/1/raw.csv'))
+                static = raw[raw['mode'] == 'static']
+                self.assertEqual(len(static), 30)
+                self.assertTrue((static.groupby(['strategy', 'alpha'], dropna=False)['plan_id']
+                                 .nunique() == 5).all())
+                summary = aggregate(raw)
+                self.assertTrue((summary[summary['mode'] == 'static']['plans'] == 5).all())
+                self.assertTrue((summary[summary['mode'] == 'dynamic']['plans'] == 10).all())
+            finally:
+                os.chdir(previous)
+
+    def test_static_interval_uses_plan_means(self):
+        row = dict(network='fixture', activity='exponential', beta=.5,
+                   budget_fraction=.1, budget=1, mode='static', strategy='hybrid',
+                   alpha=.5, centrality='degree', mc_samples=2, seed_count=1,
+                   seed_distribution='uniform', per_step=1, candidate_policy='all',
+                   immunized=1, utilization=1., runtime_seconds=.01)
+        raw = pd.DataFrame([dict(row, plan_id=plan, infection_fraction=float(plan == 4))
+                            for plan in range(5) for _ in range(20)])
+        summary = aggregate(raw).iloc[0]
+        self.assertEqual(summary['trials'], 100)
+        self.assertEqual(summary['plans'], 5)
+        self.assertAlmostEqual(summary['mean'], .2)
+        self.assertAlmostEqual(summary['ci95_halfwidth'],
+                               2.776 * np.sqrt(.2) / np.sqrt(5))
+
+    def test_interrupted_run_resumes_without_duplicate_results(self):
+        root = Path(__file__).resolve().parents[1]
+        config = dict(datasets=[dict(name='karate',
+            path=str(root / 'data/karate/edges.csv'),
+            nodes_path=str(root / 'data/karate/nodes.csv'))],
+            seed=42, activities=['exponential'], betas=[.5],
+            budget_fractions=[.05], alphas=[0], mc_samples=2,
+            trials=4, static_plans=2, checkpoint_rows=3,
+            plot_mode='selected')
+        import os
+        from experiment import experiments
+        original = experiments.sample_seeds
+        calls = 0
+        def interrupt(*args, **kwargs):
+            nonlocal calls
+            calls += 1
+            if calls == 11:
+                raise KeyboardInterrupt
+            return original(*args, **kwargs)
+        with tempfile.TemporaryDirectory() as tmp:
+            previous = Path.cwd()
+            try:
+                os.chdir(tmp)
+                with redirect_stdout(io.StringIO()), patch('experiment.reporting.report'):
+                    with patch('experiment.experiments.sample_seeds', side_effect=interrupt):
+                        with self.assertRaises(KeyboardInterrupt):
+                            run(config)
+                path = Path('output/1/raw.csv')
+                self.assertEqual(len(pd.read_csv(path)), 9)
+                with path.open('ab') as stream:
+                    stream.write(b'incomplete,last,row')
+                with redirect_stdout(io.StringIO()), patch('experiment.reporting.report'):
+                    run(config, resume='output/1')
+                resumed = pd.read_csv(path)
+                self.assertEqual(len(resumed), 24)
+                with redirect_stdout(io.StringIO()), patch('experiment.reporting.report'):
+                    run(config)
+                fresh = pd.read_csv('output/2/raw.csv')
+                unstable = ['planning_seconds', 'runtime_seconds']
+                pd.testing.assert_frame_equal(resumed.drop(columns=unstable),
+                                              fresh.drop(columns=unstable))
+                with redirect_stdout(io.StringIO()):
+                    with patch('experiment.reporting.report', side_effect=RuntimeError('plot interrupted')):
+                        with self.assertRaisesRegex(RuntimeError, 'plot interrupted'):
+                            run(config)
+                report_path = Path('output/3/raw.csv')
+                self.assertEqual(len(pd.read_csv(report_path)), 24)
+                with redirect_stdout(io.StringIO()):
+                    with patch('experiment.reporting.report') as report_mock:
+                        run(config, resume='output/3')
+                report_mock.assert_called_once()
+                self.assertEqual(len(pd.read_csv(report_path)), 24)
+                changed = dict(config, betas=[.3])
+                with self.assertRaisesRegex(ValueError, 'Resume manifest differs'):
+                    run(changed, resume='output/1')
+            finally:
+                os.chdir(previous)
 
 
 if __name__ == '__main__':

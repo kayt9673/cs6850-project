@@ -39,6 +39,8 @@
   ],
   "mc_samples": 10,
   "trials": 3,
+  "static_plans": 3,
+  "mig_threshold": 0.0,
   "seed_count": 1,
   "seed_distribution": "uniform",
   "centrality": "degree",
