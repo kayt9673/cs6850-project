@@ -57,6 +57,22 @@ Both configs control datasets, activity distributions, budgets, transmission rat
 
 The runner prints the percentage of completed strategy evaluations at every 5% milestone and at least every 30 seconds after a strategy finishes. It prints a separate message while generating aggregate results and plots, then the completed output path. A percentage measures completed evaluations, not elapsed time; larger networks can make later percentages slower.
 
+### Moderate-spread follow-up
+
+The completed `configs/full.json` sweep is the primary experiment. `configs/spread_followup.json` is a separate exploratory follow-up chosen after inspecting that run. It keeps the same four networks, three activity distributions, four budgets, methods, 300 CIB samples, 100 outbreak evaluations, and five static plans. It raises the activity floor from 0.05 to 0.15, focuses on transmission rates 0.5, 0.7, and 1.0, and uses seed 43. It still starts each outbreak from one infected node. This yields 201,600 strategy evaluations, 60% as many as the primary sweep.
+
+Before another sweep, [EXISTING_RUN_SPREAD_ANALYSIS.md](EXISTING_RUN_SPREAD_ANALYSIS.md) outlines an exploratory comparison by untreated outbreak depth using the completed `output/1/` data. It needs no new immunization run.
+
+An untreated-outbreak pilot with the follow-up settings spread beyond the starting node in 30.4% of scenarios, versus 16.4% for the primary settings. The follow-up pilot's mean was 2.89 infected nodes and its 99th percentile was about 36; the primary pilot's values were 2.14 and 32. This increases the opportunity to study downstream effects without making most outbreaks large. These pilot statistics are descriptive and the follow-up should be reported separately from the primary experiment. Since the floor, transmission grid, and random seed differ, a difference between the two runs cannot be attributed to any one of those changes alone; compare strategies within each run.
+
+Run the follow-up from the repository root with:
+
+```bash
+python -m experiment.experiments --config configs/spread_followup.json
+```
+
+Its runtime has not been measured end to end. A high-transmission football pilot at the new floor took 13.5 seconds for one plan and outbreak, close to 12.7 seconds at the original floor; the corresponding NetScience pilot took 93 seconds versus 89 seconds. The reduced transmission grid should offset some extra cascade work, but actual runtime can vary.
+
 If a run stops, resume its numbered output folder with the same configuration:
 
 ```bash

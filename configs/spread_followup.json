@@ -1,0 +1,60 @@
+{
+  "datasets": [
+    {
+      "name": "karate",
+      "path": "data/karate/edges.csv",
+      "nodes_path": "data/karate/nodes.csv"
+    },
+    {
+      "name": "dolphins",
+      "path": "data/dolphins/edges.csv",
+      "nodes_path": "data/dolphins/nodes.csv"
+    },
+    {
+      "name": "football",
+      "path": "data/football/edges.csv",
+      "nodes_path": "data/football/nodes.csv"
+    },
+    {
+      "name": "netscience",
+      "path": "data/netscience/edges.csv",
+      "nodes_path": "data/netscience/nodes.csv"
+    }
+  ],
+  "seed": 43,
+  "activities": [
+    "exponential",
+    "power_law",
+    "negative_binomial"
+  ],
+  "activity_floor": 0.15,
+  "betas": [
+    0.5,
+    0.7,
+    1.0
+  ],
+  "budget_fractions": [
+    0.05,
+    0.1,
+    0.2,
+    0.3
+  ],
+  "alphas": [
+    0,
+    0.25,
+    0.5,
+    0.75,
+    1
+  ],
+  "mc_samples": 300,
+  "trials": 100,
+  "static_plans": 5,
+  "mig_threshold": 0.0,
+  "checkpoint_rows": 100,
+  "plot_mode": "selected",
+  "seed_count": 1,
+  "seed_distribution": "uniform",
+  "centrality": "degree",
+  "per_step": 1,
+  "candidate_policy": "all"
+}

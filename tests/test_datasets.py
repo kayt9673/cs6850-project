@@ -38,3 +38,13 @@ class DatasetTests(unittest.TestCase):
                 expected = SOURCES[spec['name']][2:]
                 self.assertEqual((len(graph), graph.number_of_edges()), expected)
                 self.assertFalse(graph.is_directed())
+
+    def test_spread_followup_changes_only_calibrated_settings(self):
+        root = Path(__file__).resolve().parents[1]
+        full = json.loads((root / 'configs/full.json').read_text())
+        followup = json.loads((root / 'configs/spread_followup.json').read_text())
+        changed = {key for key in full if full[key] != followup[key]}
+        self.assertEqual(changed, {'seed', 'activity_floor', 'betas'})
+        self.assertEqual(followup['seed'], 43)
+        self.assertEqual(followup['activity_floor'], .15)
+        self.assertEqual(followup['betas'], [.5, .7, 1.0])
