@@ -1,0 +1,85 @@
+network,stratum,method,infected,immunized,budget_outbreak_pairs
+dolphins,2+ waves,AR,6.024475524475524,3.617132867132867,572
+dolphins,2+ waves,AR endpoint,6.024475524475524,3.617132867132867,572
+dolphins,2+ waves,CIB,2.7832167832167833,2.194055944055944,572
+dolphins,2+ waves,Hybrid .5,2.8374125874125875,2.2202797202797204,572
+dolphins,2+ waves,Hybrid 0.25,2.7884615384615383,2.1888111888111887,572
+dolphins,2+ waves,Hybrid 0.75,5.854895104895105,3.522727272727273,572
+dolphins,2+ waves,MIG,2.6695804195804196,2.027972027972028,572
+dolphins,No spread,AR,1.0,1.0,2496
+dolphins,No spread,AR endpoint,1.0,1.0,2496
+dolphins,No spread,CIB,1.0,1.0,2496
+dolphins,No spread,Hybrid .5,1.0,1.0,2496
+dolphins,No spread,Hybrid 0.25,1.0,1.0,2496
+dolphins,No spread,Hybrid 0.75,1.0,1.0,2496
+dolphins,No spread,MIG,1.0,1.0,2496
+dolphins,One wave,AR,2.1278195488721803,1.9924812030075187,532
+dolphins,One wave,AR endpoint,2.1278195488721803,1.9924812030075187,532
+dolphins,One wave,CIB,1.8646616541353382,1.7894736842105263,532
+dolphins,One wave,Hybrid .5,1.9097744360902256,1.8251879699248121,532
+dolphins,One wave,Hybrid 0.25,1.868421052631579,1.7894736842105263,532
+dolphins,One wave,Hybrid 0.75,2.1052631578947367,1.9906015037593985,532
+dolphins,One wave,MIG,1.887218045112782,1.7293233082706767,532
+football,2+ waves,AR,14.361795774647888,5.696302816901408,1136
+football,2+ waves,AR endpoint,14.361795774647888,5.696302816901408,1136
+football,2+ waves,CIB,5.007042253521127,3.2130281690140845,1136
+football,2+ waves,Hybrid .5,4.912852112676056,3.1725352112676055,1136
+football,2+ waves,Hybrid 0.25,5.024647887323944,3.227112676056338,1136
+football,2+ waves,Hybrid 0.75,10.462147887323944,4.808098591549296,1136
+football,2+ waves,MIG,4.529049295774648,3.039612676056338,1136
+football,No spread,AR,1.0,1.0,1844
+football,No spread,AR endpoint,1.0,1.0,1844
+football,No spread,CIB,1.0,1.0,1844
+football,No spread,Hybrid .5,1.0,1.0,1844
+football,No spread,Hybrid 0.25,1.0,1.0,1844
+football,No spread,Hybrid 0.75,1.0,1.0,1844
+football,No spread,MIG,1.0,1.0,1844
+football,One wave,AR,2.2,2.0,620
+football,One wave,AR endpoint,2.2,2.0,620
+football,One wave,CIB,2.07741935483871,1.9209677419354838,620
+football,One wave,Hybrid .5,2.0903225806451613,1.9209677419354838,620
+football,One wave,Hybrid 0.25,2.088709677419355,1.9274193548387097,620
+football,One wave,Hybrid 0.75,2.140322580645161,1.961290322580645,620
+football,One wave,MIG,2.0709677419354837,1.929032258064516,620
+karate,2+ waves,AR,4.6647727272727275,2.6988636363636362,704
+karate,2+ waves,AR endpoint,4.6647727272727275,2.6988636363636362,704
+karate,2+ waves,CIB,3.569602272727273,2.234375,704
+karate,2+ waves,Hybrid .5,3.852272727272727,2.3480113636363638,704
+karate,2+ waves,Hybrid 0.25,3.6519886363636362,2.288352272727273,704
+karate,2+ waves,Hybrid 0.75,4.345170454545454,2.590909090909091,704
+karate,2+ waves,MIG,3.571022727272727,2.085227272727273,704
+karate,No spread,AR,1.0,1.0,2372
+karate,No spread,AR endpoint,1.0,1.0,2372
+karate,No spread,CIB,1.0,1.0,2372
+karate,No spread,Hybrid .5,1.0,1.0,2372
+karate,No spread,Hybrid 0.25,1.0,1.0,2372
+karate,No spread,Hybrid 0.75,1.0,1.0,2372
+karate,No spread,MIG,1.0,1.0,2372
+karate,One wave,AR,2.2061068702290076,1.9694656488549618,524
+karate,One wave,AR endpoint,2.2061068702290076,1.9694656488549618,524
+karate,One wave,CIB,1.9389312977099236,1.7748091603053435,524
+karate,One wave,Hybrid .5,2.116412213740458,1.900763358778626,524
+karate,One wave,Hybrid 0.25,1.967557251908397,1.7805343511450382,524
+karate,One wave,Hybrid 0.75,2.181297709923664,1.9446564885496183,524
+karate,One wave,MIG,1.984732824427481,1.748091603053435,524
+netscience,2+ waves,AR,4.066666666666666,3.3333333333333335,60
+netscience,2+ waves,AR endpoint,4.066666666666666,3.3333333333333335,60
+netscience,2+ waves,CIB,2.65,2.216666666666667,60
+netscience,2+ waves,Hybrid .5,2.65,2.2666666666666666,60
+netscience,2+ waves,Hybrid 0.25,2.55,2.15,60
+netscience,2+ waves,Hybrid 0.75,4.066666666666666,3.3333333333333335,60
+netscience,2+ waves,MIG,2.6,2.2,60
+netscience,No spread,AR,1.0,1.0,3316
+netscience,No spread,AR endpoint,1.0,1.0,3316
+netscience,No spread,CIB,1.0,1.0,3316
+netscience,No spread,Hybrid .5,1.0,1.0,3316
+netscience,No spread,Hybrid 0.25,1.0,1.0,3316
+netscience,No spread,Hybrid 0.75,1.0,1.0,3316
+netscience,No spread,MIG,1.0,0.7828709288299156,3316
+netscience,One wave,AR,2.0892857142857144,2.0,224
+netscience,One wave,AR endpoint,2.0892857142857144,2.0,224
+netscience,One wave,CIB,1.75,1.6785714285714286,224
+netscience,One wave,Hybrid .5,1.7723214285714286,1.7008928571428572,224
+netscience,One wave,Hybrid 0.25,1.7991071428571428,1.7276785714285714,224
+netscience,One wave,Hybrid 0.75,2.0892857142857144,2.0,224
+netscience,One wave,MIG,1.7321428571428572,1.4821428571428572,224

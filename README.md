@@ -99,6 +99,8 @@ The full experiment's methods, statistical interpretation, and draft edits are c
 
 ## Results
 
+Research plots and a reading guide for the completed follow-up are in [analysis/followup/INTERPRETATION.md](analysis/followup/INTERPRETATION.md). Regenerate them with `python -m experiment.research_analysis output/2 --output analysis/followup`.
+
 Each experiment automatically saves `raw.csv`, `aggregated.csv`, comparison plots, activity snapshots, and `manifest.json` in its numbered output folder. To rebuild reports from saved results without rerunning experiments:
 
 ```powershell

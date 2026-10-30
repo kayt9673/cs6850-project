@@ -1,0 +1,13 @@
+# Inspecting individual outbreaks
+
+These additions compare methods on identical outbreak seeds from `output/2`.
+
+- [Figure 8: paired outcomes](08_outbreak_pairs.png) shows each pair of final infection counts at a 10% budget cap. A bubble below the diagonal favors the method on the vertical axis; one above favors the horizontal-axis method. Bubble size and color count overlapping observations. All 900 trials per network are included across activities and betas. Exact integer coordinates avoid hiding small differences through binning.
+- [Figure 9: wins, ties, and losses](09_outbreak_win_tie_loss.png) shows how often the same comparisons favor either method, grouped by untreated outbreak depth. A win means fewer infections; check immunization use separately. Counts include four budgets per scenario, so they are not independent sample sizes.
+- [Figure 10: individual trials](10_individual_outbreaks.png) plots every one of the 100 trials at negative-binomial activity, beta=1, and a 10% budget cap. The setting is selected by a fixed rule rather than by which method wins. Trials are ordered by untreated outbreak size and trial ID. Static and dynamic panels use the same order. **Each horizontal position is a different outbreak; the lines are not infection timelines.**
+
+The complete [outbreak_pairs.csv](outbreak_pairs.csv) has 72,000 rows covering five comparisons at all 144 settings. Filter by `network`, `activity`, `beta`, `budget_fraction`, and `trial` to inspect a specific case. Each row includes both methods' final infections and immunizations, signed differences, plan IDs, full evaluation/planning seeds, and the two `evaluation_index` values linking back to `output/2/raw.csv`. Negative `delta_infected` favors the treatment method. [individual_outbreak_order.csv](individual_outbreak_order.csv) maps Figure 10's ranks to trials and seeds. The CSVs retain full integer seeds; preserve them as text if opening in a spreadsheet.
+
+For dynamic CIB versus MIG, there are **336 wins, 13,624 ties, and 440 losses** across all budgets. In the two-or-more-wave subgroup, the counts are **214 wins, 1,912 ties, and 346 losses**. Thus averaging hides genuine disagreements, but these data still do not show a consistent CIB advantage. Inspect both benefit sizes and resource differences rather than counting wins alone.
+
+These are exploratory views. Static trials share five plans, and budgets share outbreak seeds. The raw data store final outcomes, not the identities or infection times of individual nodes. A per-step propagation animation would require a separate replay with instrumentation.

@@ -1,0 +1,73 @@
+network,mode,treatment,control,stratum,outcome,count,budget_outbreak_pairs
+karate,static,Hybrid .5,AR,No spread,Win,29,2372
+karate,static,Hybrid .5,AR,One wave,Win,19,524
+karate,static,Hybrid .5,AR,2+ waves,Win,33,704
+karate,static,Hybrid .5,AR,No spread,Tie,2305,2372
+karate,static,Hybrid .5,AR,One wave,Tie,493,524
+karate,static,Hybrid .5,AR,2+ waves,Tie,645,704
+karate,static,Hybrid .5,AR,No spread,Loss,38,2372
+karate,static,Hybrid .5,AR,One wave,Loss,12,524
+karate,static,Hybrid .5,AR,2+ waves,Loss,26,704
+dolphins,static,Hybrid .5,AR,No spread,Win,52,2496
+dolphins,static,Hybrid .5,AR,One wave,Win,75,532
+dolphins,static,Hybrid .5,AR,2+ waves,Win,190,572
+dolphins,static,Hybrid .5,AR,No spread,Tie,2359,2496
+dolphins,static,Hybrid .5,AR,One wave,Tie,420,532
+dolphins,static,Hybrid .5,AR,2+ waves,Tie,340,572
+dolphins,static,Hybrid .5,AR,No spread,Loss,85,2496
+dolphins,static,Hybrid .5,AR,One wave,Loss,37,532
+dolphins,static,Hybrid .5,AR,2+ waves,Loss,42,572
+football,static,Hybrid .5,AR,No spread,Win,185,1844
+football,static,Hybrid .5,AR,One wave,Win,163,620
+football,static,Hybrid .5,AR,2+ waves,Win,749,1136
+football,static,Hybrid .5,AR,No spread,Tie,1405,1844
+football,static,Hybrid .5,AR,One wave,Tie,344,620
+football,static,Hybrid .5,AR,2+ waves,Tie,183,1136
+football,static,Hybrid .5,AR,No spread,Loss,254,1844
+football,static,Hybrid .5,AR,One wave,Loss,113,620
+football,static,Hybrid .5,AR,2+ waves,Loss,204,1136
+netscience,static,Hybrid .5,AR,No spread,Win,61,3316
+netscience,static,Hybrid .5,AR,One wave,Win,18,224
+netscience,static,Hybrid .5,AR,2+ waves,Win,8,60
+netscience,static,Hybrid .5,AR,No spread,Tie,3177,3316
+netscience,static,Hybrid .5,AR,One wave,Tie,193,224
+netscience,static,Hybrid .5,AR,2+ waves,Tie,50,60
+netscience,static,Hybrid .5,AR,No spread,Loss,78,3316
+netscience,static,Hybrid .5,AR,One wave,Loss,13,224
+netscience,static,Hybrid .5,AR,2+ waves,Loss,2,60
+karate,dynamic,CIB,MIG,No spread,Win,0,2372
+karate,dynamic,CIB,MIG,One wave,Win,46,524
+karate,dynamic,CIB,MIG,2+ waves,Win,69,704
+karate,dynamic,CIB,MIG,No spread,Tie,2372,2372
+karate,dynamic,CIB,MIG,One wave,Tie,456,524
+karate,dynamic,CIB,MIG,2+ waves,Tie,560,704
+karate,dynamic,CIB,MIG,No spread,Loss,0,2372
+karate,dynamic,CIB,MIG,One wave,Loss,22,524
+karate,dynamic,CIB,MIG,2+ waves,Loss,75,704
+dolphins,dynamic,CIB,MIG,No spread,Win,0,2496
+dolphins,dynamic,CIB,MIG,One wave,Win,32,532
+dolphins,dynamic,CIB,MIG,2+ waves,Win,23,572
+dolphins,dynamic,CIB,MIG,No spread,Tie,2496,2496
+dolphins,dynamic,CIB,MIG,One wave,Tie,480,532
+dolphins,dynamic,CIB,MIG,2+ waves,Tie,492,572
+dolphins,dynamic,CIB,MIG,No spread,Loss,0,2496
+dolphins,dynamic,CIB,MIG,One wave,Loss,20,532
+dolphins,dynamic,CIB,MIG,2+ waves,Loss,57,572
+football,dynamic,CIB,MIG,No spread,Win,0,1844
+football,dynamic,CIB,MIG,One wave,Win,22,620
+football,dynamic,CIB,MIG,2+ waves,Win,115,1136
+football,dynamic,CIB,MIG,No spread,Tie,1844,1844
+football,dynamic,CIB,MIG,One wave,Tie,572,620
+football,dynamic,CIB,MIG,2+ waves,Tie,813,1136
+football,dynamic,CIB,MIG,No spread,Loss,0,1844
+football,dynamic,CIB,MIG,One wave,Loss,26,620
+football,dynamic,CIB,MIG,2+ waves,Loss,208,1136
+netscience,dynamic,CIB,MIG,No spread,Win,0,3316
+netscience,dynamic,CIB,MIG,One wave,Win,22,224
+netscience,dynamic,CIB,MIG,2+ waves,Win,7,60
+netscience,dynamic,CIB,MIG,No spread,Tie,3316,3316
+netscience,dynamic,CIB,MIG,One wave,Tie,176,224
+netscience,dynamic,CIB,MIG,2+ waves,Tie,47,60
+netscience,dynamic,CIB,MIG,No spread,Loss,0,3316
+netscience,dynamic,CIB,MIG,One wave,Loss,26,224
+netscience,dynamic,CIB,MIG,2+ waves,Loss,6,60

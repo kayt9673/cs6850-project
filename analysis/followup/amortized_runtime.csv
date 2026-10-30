@@ -1,0 +1,33 @@
+network,mode,method,cost_ms
+dolphins,dynamic,AR,0.04914186002376179
+dolphins,dynamic,CIB,5.069873340091565
+dolphins,dynamic,Hybrid .5,5.08139268850856
+dolphins,dynamic,MIG,0.2783982272699682
+dolphins,static,AR,0.03074153675697744
+dolphins,static,CIB,2.363741478895665
+dolphins,static,Degree,0.03714311350550917
+dolphins,static,Hybrid .5,2.35928397903788
+football,dynamic,AR,0.1111047852706785
+football,dynamic,CIB,73.95641209913366
+football,dynamic,Hybrid .5,74.2470929210928
+football,dynamic,MIG,1.1428736991688817
+football,static,AR,0.07064059758300169
+football,static,CIB,15.994694336097584
+football,static,Degree,0.08749135362450033
+football,static,Hybrid .5,16.297658595916193
+karate,dynamic,AR,0.035620300849485725
+karate,dynamic,CIB,5.933375764741665
+karate,dynamic,Hybrid .5,6.019004822139525
+karate,dynamic,MIG,0.19706791661317563
+karate,static,AR,0.021431938835626677
+karate,static,CIB,1.1322760011535138
+karate,static,Degree,0.024849977020898625
+karate,static,Hybrid .5,1.1294558368131726
+netscience,dynamic,AR,0.5534526713502904
+netscience,dynamic,CIB,33.37934118915453
+netscience,dynamic,Hybrid .5,33.40127610155226
+netscience,dynamic,MIG,3.0555950199616038
+netscience,static,AR,3.219249750772077
+netscience,static,CIB,570.1881766727375
+netscience,static,Degree,5.829776162734358
+netscience,static,Hybrid .5,568.889658121237
